@@ -7,6 +7,8 @@ from core.helpers.model_choices import HEX_CHOICES
 class Note(models.Model):
 	title = models.CharField(max_length=32)
 	content = RichTextField()
+	categories = models.ManyToManyField('note.Category', blank=True)
+
 
 	def __str__(self):
 		return self.title
