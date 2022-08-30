@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+	Home
+{% endblock %}
+
+
+{% block link %}{% endblock %}
+
+
+{% block content %}
+	{% include 'snippets/date.html' %}
+	{% include 'snippets/search.html' %}
+	{% include 'snippets/navbar.html' %}
+
+
+	{% for note in note_list %}
+		<b>{{ note.title }}</b>
+		<br>
+
+		{% for category in note.categories.all %}
+			{{ category }} {% if not forloop.last %}, {% endif %}
+		{% endfor %}
+		<br>
+
+		{{ note.content }}
+		<hr>
+	{% endfor %}
+
+	{% include 'snippets/pagination.html' %}
+{% endblock %}

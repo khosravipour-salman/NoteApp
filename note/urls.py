@@ -3,5 +3,5 @@ from note import views
 
 
 urlpatterns = [
-	# add url here
+	path('home/', views.home, name='home'),
 ]

@@ -1,0 +1,9 @@
+<h1>Search</h1>
+<form method="GET">
+	<input type="number" name="object_per_page_limit"
+		{% if object_per_page_limit %}
+			value={{ object_per_page_limit }}
+		{% endif %}
+	>
+	<input type="submit" value="Action">
+</form>

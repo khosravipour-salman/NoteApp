@@ -28,3 +28,4 @@ class Command(BaseCommand):
             obj.save()
 
         self.stdout.write(self.style.SUCCESS('Dummy-data has been generated and inserted to database Successfully.'))
+    
