@@ -14,12 +14,13 @@
 	{% include 'snippets/date.html' %}
 	{% include 'snippets/search.html' %}
 	
-	<form method="GET" action="{% url 'create_note_with_inheritance' %}">
+	<form method="GET">
 		{% include 'snippets/navbar.html' %}
 
 		{% for note in note_list %}
 			<input type="radio" name="instance" value="{{ note.title }}">
-			<b>{{ note.title|censor }}</b><br>
+			<b>{{ note.title|censor }}</b>
+			<input type="checkbox" name="bd---{{ note.title }}" value="{{ note.title }}">
 
 			{% for category in note.categories.all %}
 				{{ category.name|censor }} {% if not forloop.last %}, {% endif %}

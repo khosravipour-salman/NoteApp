@@ -2,12 +2,17 @@
 
 <li style="display: inline;">
 	<ul style="display: inline;">
-		<a href="{% url 'create_note' %}">	
+		<a href="{% url 'note:create_note' %}">	
 			Create New
 		</a>
 	</ul>
 	<ul style="display: inline;" >
-			<input type="submit" value="Create on top of another note">
+			<input type="submit" value="Create on top of another note"
+			formaction="{% url 'note:create_note_with_inheritance' %}">
+	</ul>
+	<ul style="display: inline;" >
+			<input type="submit" value="Bulk delete" 
+			formaction="{% url 'note:bulk_delete' %}">
 	</ul>
 </li>
 

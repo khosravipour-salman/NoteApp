@@ -33,7 +33,7 @@ def create_note(request):
 		form = NoteForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect('home')
+			return redirect('note:home')
 
 	context = {
 		'form': form,
@@ -51,9 +51,22 @@ def create_note_with_inheritance(request):
 		form = NoteForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect('home')
+			return redirect('note:home')
 
 	context = {
 		'form': form,
 	}
 	return render(request, 'note/create.html', context)
+
+
+def bulk_delete(request):
+	obj_list = [
+		value 
+		for name, value in request.GET.items()
+		if name.startswith('bd---')
+	]
+
+	for obj in obj_list:
+		Note.objects.get(title=obj).delete()
+	
+	return redirect('note:home')
