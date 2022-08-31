@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # Apps
     'note.apps.NoteConfig',
+    'error_handlers.apps.ErrorHandlersConfig',
 
     # Third-party Apps
     'ckeditor',
@@ -55,6 +56,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Custom middlewares
+    'error_handlers.custom_middleware.DevelopmentErrorHandler',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -62,7 +66,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
