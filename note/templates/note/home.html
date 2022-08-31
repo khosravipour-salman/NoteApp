@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load profanity %}
 
 
 {% block title %}
@@ -12,21 +13,25 @@
 {% block content %}
 	{% include 'snippets/date.html' %}
 	{% include 'snippets/search.html' %}
-	{% include 'snippets/navbar.html' %}
+	
+	<form method="GET" action="{% url 'create_note_with_inheritance' %}">
+		{% include 'snippets/navbar.html' %}
 
+		{% for note in note_list %}
+			<input type="radio" name="instance" value="{{ note.title }}">
+			<b>{{ note.title|censor }}</b><br>
 
-	{% for note in note_list %}
-		<b>{{ note.title }}</b>
-		<br>
+			{% for category in note.categories.all %}
+				{{ category.name|censor }} {% if not forloop.last %}, {% endif %}
+			{% endfor %}
+			<br>
 
-		{% for category in note.categories.all %}
-			{{ category }} {% if not forloop.last %}, {% endif %}
+			{% with content=note.content|censor %}
+				{{ content|safe }}
+			{% endwith %}
+			<hr>
 		{% endfor %}
-		<br>
-
-		{{ note.content }}
-		<hr>
-	{% endfor %}
+	</form>
 
 	{% include 'snippets/pagination.html' %}
 {% endblock %}

@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 
 from note.models import Note, Category
+from note.forms import NoteForm
 
 
 def home(request):
 	object_per_page_limit = request.GET.get('object_per_page_limit', 6) 
-	p = Paginator(Note.objects.all(), object_per_page_limit)
+	p = Paginator(Note.objects.all().order_by('-create'), object_per_page_limit)
 	page = request.GET.get('page')
 	
 	try:
@@ -23,3 +24,36 @@ def home(request):
 		'object_per_page_limit': object_per_page_limit,
 	}
 	return render(request, 'note/home.html', context)
+
+
+def create_note(request):
+	form = NoteForm()
+
+	if request.method == 'POST':
+		form = NoteForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('home')
+
+	context = {
+		'form': form,
+	}
+	return render(request, 'note/create.html', context)
+
+
+def create_note_with_inheritance(request):
+	instance_title = request.GET.get('instance', None)
+	instance_obj = get_object_or_404(Note, title=instance_title)
+
+	form = NoteForm(initial={'title': instance_obj.title, 'content': instance_obj.content})
+
+	if request.method == 'POST':
+		form = NoteForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('home')
+
+	context = {
+		'form': form,
+	}
+	return render(request, 'note/create.html', context)

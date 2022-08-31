@@ -16,7 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from core import error_handler_views as views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('note.urls')),
+    # path('404/', views.custom_handler404, name='custom_handler404')
 ]
+
+handler404 = 'core.error_handler_views.custom_handler404'
+handler500 = 'core.error_handler_views.custom_handler500'

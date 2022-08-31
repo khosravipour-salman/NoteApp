@@ -16,7 +16,7 @@ class Command(BaseCommand):
         parser.add_argument('--count', help='Object count to insert into database.', type=int)
 
     def handle(self, *args, **options):
-        obj_count = options.get('--count', 30)
+        obj_count = options.get('count', 30)
 
         for _ in range(obj_count):
             note_obj = Note.objects.create(title='note' + faker.name(), content=faker.text())
