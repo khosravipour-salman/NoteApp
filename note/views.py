@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
+from django.db.models import Q
+from django.utils import timezone
+from datetime import datetime
 
 from note.models import Note, Category
 from note.forms import NoteForm
+from note.helper_functions import get_queryset_fields
 
 
 def home(request):
@@ -67,5 +71,27 @@ def bulk_delete(request):
 	]
 	for obj in obj_list:
 		Note.objects.get(title=obj).delete()
+	
+	return redirect('note:home')
+
+
+def search(request):
+	search_text = request.GET.get('search_text', '')
+	search_field = request.GET.get('search_in', 'all')
+	search_dict = get_queryset_fields(search_field, search_text)
+
+	q_obj_list = [Q(**{search_dict[key]: key}) for key, value in search_dict.items()]
+	
+	res = Note.objects.filter(
+		*q_obj_list
+	)
+
+	default_start_date = request.user.date_joined
+	default_end_date = timezone.datetime.today() + timezone.timedelta(days=1)
+
+	start_date = request.GET.get('from') if request.GET.get('from') else default_start_date
+	end_date = request.GET.get('to') if request.GET.get('to') else default_end_date
+	
+	res = res.filter(create__range=[start_date, end_date]).distinct().order('-create')
 	
 	return redirect('note:home')

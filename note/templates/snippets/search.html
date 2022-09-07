@@ -1,13 +1,14 @@
 <h1>Search</h1>
 
-<form method="GET">
+<form method="GET" action="{% url 'note:search' %}">
+	<input type="text" name="search_text">
 	<b>Search in:</b>
-	All<input type="radio" name="all" value="{{ note.title }}">
-	Title<input type="radio" name="titles" value="{{ note.title }}">
-	Content<input type="radio" name="content" value="{{ note.title }}">
-	Category<input type="radio" name="category" value="{{ note.title }}">
+	All<input type="radio" name="search_in" value="all" checked>
+	Title<input type="radio" name="search_in" value="title">
+	Content<input type="radio" name="search_in" value="content">
+	Category<input type="radio" name="search_in" value="categories">
 	
-	<b>Date Range:</b> <input type="date"> To <input type="date">
+	<b>Date Range:</b> <input type="date" name="from"> To <input type="date" name="to">
 
 	<input type="submit" value="Action">
 </form>
