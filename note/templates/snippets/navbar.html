@@ -14,6 +14,14 @@
 			<input type="submit" value="Bulk delete" 
 			formaction="{% url 'note:bulk_delete' %}">
 	</ul>
+	<ul style="display: inline;" >
+			<input type="number" name="object_per_page_limit"
+				{% if object_per_page_limit %}
+					value={{ object_per_page_limit }}
+				{% endif %}
+			>
+			<input type="submit" value="Action">
+	</ul>
 </li>
 
 <hr>

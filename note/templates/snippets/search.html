@@ -1,10 +1,13 @@
 <h1>Search</h1>
 <form method="GET">
-	<input type="number" name="object_per_page_limit"
-		{% if object_per_page_limit %}
-			value={{ object_per_page_limit }}
-		{% endif %}
-	>
+	<b>Search in:</b>
+	All<input type="radio" name="all" value="{{ note.title }}">
+	Title<input type="radio" name="titles" value="{{ note.title }}">
+	Content<input type="radio" name="content" value="{{ note.title }}">
+	Category<input type="radio" name="category" value="{{ note.title }}">
+	
+	<b>Date Range:</b> <input type="date"> To <input type="date">
+
 	<input type="submit" value="Action">
 </form>
 

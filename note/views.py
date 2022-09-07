@@ -47,7 +47,6 @@ def create_note_with_inheritance(request):
 	instance_obj = get_object_or_404(Note, title=instance_title)
 
 	form = NoteForm(initial={'title': instance_obj.title, 'content': instance_obj.content})
-
 	if request.method == 'POST':
 		form = NoteForm(request.POST)
 		if form.is_valid():
@@ -66,7 +65,6 @@ def bulk_delete(request):
 		for name, value in request.GET.items()
 		if name.startswith('bd---')
 	]
-
 	for obj in obj_list:
 		Note.objects.get(title=obj).delete()
 	
