@@ -1,7 +1,4 @@
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from django.utils.text import slugify
 
 from ckeditor.fields import RichTextField
 from profanity.validators import validate_is_profane
@@ -23,12 +20,6 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
-
-
-@receiver(pre_save, sender=Note)
-def add_slug_to_note(sender, instance, **kwargs):
-    if instance and not instance.slug:
-        instance.slug = slugify(instance.title)
 
 
 class Category(models.Model):
