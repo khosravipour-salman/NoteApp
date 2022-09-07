@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'error_handlers.custom_middleware.DevelopmentErrorHandler',
 ]
 
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [

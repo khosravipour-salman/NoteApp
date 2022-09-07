@@ -6,8 +6,9 @@ from note.forms import NoteForm
 
 
 def home(request):
+	queryset = Note.objects.all().order_by('-create')
 	object_per_page_limit = request.GET.get('object_per_page_limit', 6) 
-	p = Paginator(Note.objects.all().order_by('-create'), object_per_page_limit)
+	p = Paginator(queryset, object_per_page_limit)
 	page = request.GET.get('page')
 	
 	try:
