@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # Third-party Apps
     'ckeditor',
     'profanity',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

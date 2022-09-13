@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils import timezone
@@ -10,7 +11,11 @@ from note.helper_functions import get_queryset_fields
 
 
 def home(request):
-	queryset = Note.objects.all().order_by('-create')
+	if not request.session.get('search_result'):
+		queryset = Note.objects.all().order_by('-create')
+	else:
+		queryset = request.session.get('search_result')
+
 	object_per_page_limit = request.GET.get('object_per_page_limit', 6) 
 	p = Paginator(queryset, object_per_page_limit)
 	page = request.GET.get('page')
@@ -38,7 +43,7 @@ def create_note(request):
 		form = NoteForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect('note:home')
+			return redirect('note:detail')
 
 	context = {
 		'form': form,
@@ -55,7 +60,7 @@ def create_note_with_inheritance(request):
 		form = NoteForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect('note:home')
+			return redirect('note:detail')
 
 	context = {
 		'form': form,
@@ -92,6 +97,29 @@ def search(request):
 	start_date = request.GET.get('from') if request.GET.get('from') else default_start_date
 	end_date = request.GET.get('to') if request.GET.get('to') else default_end_date
 	
-	res = res.filter(create__range=[start_date, end_date]).distinct().order('-create')
-	
+	res = res.filter(create__range=[start_date, end_date]).distinct().order_by('-create')	
+	serialized_result = [obj for obj in res]
+	request.session["search_result"] = serialized_result
+
 	return redirect('note:home')
+
+
+def detail(request, note_slug):
+	obj = get_object_or_404(Note, slug=note_slug)
+	return render(request, 'note/detail.html', {'obj': obj})
+
+
+def edit(request, note_slug):
+	instance_obj = get_object_or_404(Note, slug=note_slug)
+
+	form = NoteForm(instance=instance_obj)
+	if request.method == 'POST':
+		form = NoteForm(request.POST, instance=instance_obj)
+		if form.is_valid():
+			form.save()
+			return redirect(reverse('note:detail', kwargs={'note_slug': note_slug}))
+
+	context = {
+		'form': form,
+	}
+	return render(request, 'note/create.html', context)

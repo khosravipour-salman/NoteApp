@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load profanity %}
+
+
+{% block title %}
+	Detail - {{ obj.title }}
+{% endblock %}
+
+
+{% block link %}{% endblock %}
+
+
+{% block content %}
+
+<h3>Categories: </h3>
+{% for category_obj in obj.categories.all %}
+	<div style="background-color: {{ category_obj.color }}; display: inline; margin-right: 10px;">
+		{{ category_obj.name }}<a href="#"> remove from note</a>
+	</div>
+{% endfor %}
+<a href="#">Add category</a>
+<a href="{% url 'note:edit' obj.slug %}">Edit Note</a>
+<a href="#">Delete Note</a>
+
+<div class="content">
+	<br>
+	<span><b>Created at:</b> {{ obj.create }}</span> <span><b>Modified at:</b> {{ obj.modify }}</span>
+	<h4>{{ obj.title }}</h4>
+
+	{% with content=obj.content|censor %}
+		{{ content|safe }}
+	{% endwith %}
+
+</div>
+
+
+{% endblock %}
