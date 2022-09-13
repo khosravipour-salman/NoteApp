@@ -19,4 +19,5 @@ urlpatterns = [
 	path('delete/<slug:note_slug>/', views.delete, name='delete'),
 
 	path('<slug:note_slug>/categories/', views.note_categories, name='categories'),
+	path('<slug:note_slug>/<int:category_id>/', views.remove_category_from_note, name='remove_category_from_note'),
 ]

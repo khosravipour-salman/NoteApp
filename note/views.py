@@ -135,9 +135,6 @@ def delete(request, note_slug):
 
 
 def note_categories(request, note_slug):
-	# base url --> note_slug/categories/ 
-	# -----------------------------------------------------------------
-	# see category object list
 	obj = get_object_or_404(Note, slug=note_slug)
 	obj_categories = obj.categories.all()
 	category_object_list = Category.objects.all()	
@@ -147,10 +144,15 @@ def note_categories(request, note_slug):
 		'obj_categories': obj_categories,
 		'category_list': category_object_list,
 	}
-
-	# click on "minus-sign" to send category id to category delete page
-	# -----------------------------------------------------------------
 	# 2 separate forms
 	# A) Add categories to note: note_slug/ --  input category id list --> loop through it --> and add them to note object
 	# B) Create a Category: note_slug/create_category/ Get "category_name" field value -- Create a category object and pass to current note
 	return render(request, 'note/category_list.html', context)
+
+
+def remove_category_from_note(request, note_slug, category_id):
+	note_obj = get_object_or_404(Note, slug=note_slug)
+	category_obj = get_object_or_404(Category, id=category_id)
+
+	note_obj.categories.remove(category_obj)
+	return redirect(request.META.get('HTTP_REFERER'))

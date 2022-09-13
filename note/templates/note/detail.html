@@ -15,7 +15,8 @@
 <h3>Categories: </h3>
 {% for category_obj in obj.categories.all %}
 	<div style="background-color: {{ category_obj.color }}; display: inline; margin-right: 10px;">
-		{{ category_obj.name }}<a href="#"> remove from note</a>
+		{{ category_obj.name }}
+		<a href="{% url 'note:remove_category_from_note' obj.slug category_obj.id %}"> remove from note</a>
 	</div>
 {% endfor %}
 <a href="{% url 'note:categories' obj.slug %}">Add category</a>
