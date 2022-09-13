@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Categoies{% endblock %}
+
+
+{% block content %}
+	<h3>Categories: </h3>
+	{% for category_obj in category_list %}
+		<div style="background-color: {{ category_obj.color }}; margin-right: 10px;">
+			{{ category_obj.name }}
+			{% if category_obj in obj_categories %}<a href="#"> remove from note</a>{% endif %}
+		</div>
+	{% endfor %}
+
+{% endblock %}

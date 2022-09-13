@@ -132,3 +132,25 @@ def delete(request, note_slug):
 		return redirect('note:home')
 
 	return render(request, 'snippets/delete_confirm.html', {'obj': obj})
+
+
+def note_categories(request, note_slug):
+	# base url --> note_slug/categories/ 
+	# -----------------------------------------------------------------
+	# see category object list
+	obj = get_object_or_404(Note, slug=note_slug)
+	obj_categories = obj.categories.all()
+	category_object_list = Category.objects.all()	
+
+	context = {
+		'obj': obj,
+		'obj_categories': obj_categories,
+		'category_list': category_object_list,
+	}
+
+	# click on "minus-sign" to send category id to category delete page
+	# -----------------------------------------------------------------
+	# 2 separate forms
+	# A) Add categories to note: note_slug/ --  input category id list --> loop through it --> and add them to note object
+	# B) Create a Category: note_slug/create_category/ Get "category_name" field value -- Create a category object and pass to current note
+	return render(request, 'note/category_list.html', context)
