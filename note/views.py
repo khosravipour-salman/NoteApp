@@ -123,3 +123,12 @@ def edit(request, note_slug):
 		'form': form,
 	}
 	return render(request, 'note/create.html', context)
+
+
+def delete(request, note_slug):
+	obj = get_object_or_404(Note, slug=note_slug)
+	if request.method == 'POST':
+		obj.delete()
+		return redirect('note:home')
+
+	return render(request, 'snippets/delete_confirm.html', {'obj': obj})

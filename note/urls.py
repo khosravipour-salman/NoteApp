@@ -13,8 +13,8 @@ urlpatterns = [
 	path('create-note/inherit/', views.create_note_with_inheritance, name='create_note_with_inheritance'),
 	
 	path('delete/bulk/', views.bulk_delete, name='bulk_delete'),
-	path('detail/<slug:note_slug>/', views.detail, name='detail'),
-	
 
+	path('detail/<slug:note_slug>/', views.detail, name='detail'),
 	path('edit/<slug:note_slug>/', views.edit, name='edit'),
+	path('delete/<slug:note_slug>/', views.delete, name='delete'),
 ]

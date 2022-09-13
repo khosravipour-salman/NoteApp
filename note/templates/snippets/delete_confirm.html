@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ obj }} {% endblock %}
+
+{% block content %}
+<p>
+	Are you sure?
+	this object will be deleted permanently!
+</p>
+<form method="POST">
+	{% csrf_token %}
+
+	<a href="{% url 'note:detail' obj.slug %}">No, I may need this later</a>
+	<input type="submit" value="I know what i am doing mate, delete it !">
+</form>
+{% endblock %}

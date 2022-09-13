@@ -20,7 +20,7 @@
 {% endfor %}
 <a href="#">Add category</a>
 <a href="{% url 'note:edit' obj.slug %}">Edit Note</a>
-<a href="#">Delete Note</a>
+<a href="{% url 'note:delete' obj.slug %}">Delete Note</a>
 
 <div class="content">
 	<br>
