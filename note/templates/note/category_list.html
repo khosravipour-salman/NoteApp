@@ -15,13 +15,20 @@
 						Remove from note
 					</a>
 				{% else %}
-					<input type="checkbox" name="cn--{{ category_obj.name }}" value="{{ category_obj.id }}">
+					<input type="checkbox" name="categories" value="{{ category_obj.id }}">
 				{% endif %}
 			</div>
 		{% endfor %}
 		<input type="submit" value="Add categories to note!">
 	</form>
 
-
-
+	<hr/>
+	
+	<form method="POST" action="{% url 'note:create_category' obj.slug %}">
+		{% csrf_token %}
+		{{ form.name }}
+		{{ form.color }}
+		{{ form.add }}
+		<input type="submit" value="Create">
+	</form>
 {% endblock %}

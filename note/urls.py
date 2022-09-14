@@ -21,4 +21,5 @@ urlpatterns = [
 	path('<slug:note_slug>/categories/', views.note_categories, name='categories'),
 	path('<slug:note_slug>/<int:category_id>/', views.remove_category_from_note, name='remove_category_from_note'),
 	path('add-categories-to/<slug:note_slug>/', views.add_category_list_to_note, name='add_category_list_to_note'),
+	path('create-new-category/<slug:note_slug>/', views.create_category, name='create_category'),
 ]

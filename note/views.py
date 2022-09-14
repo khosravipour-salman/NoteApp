@@ -3,10 +3,12 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils import timezone
+from django.http import Http404
+
 from datetime import datetime
 
 from note.models import Note, Category
-from note.forms import NoteForm
+from note.forms import NoteForm, CategoryForm
 from note.helper_functions import get_queryset_fields
 
 
@@ -139,14 +141,14 @@ def note_categories(request, note_slug):
 	obj_categories = obj.categories.all()
 	category_object_list = Category.objects.all()	
 
+	form = CategoryForm(initial={'add': obj.slug})
+
 	context = {
 		'obj': obj,
 		'obj_categories': obj_categories,
 		'category_list': category_object_list,
+		'form': form,
 	}
-	# 2 separate forms
-	# A) Add categories to note: note_slug/ --  input category id list --> loop through it --> and add them to note object
-	# B) Create a Category: note_slug/create_category/ Get "category_name" field value -- Create a category object and pass to current note
 	return render(request, 'note/category_list.html', context)
 
 
@@ -162,18 +164,22 @@ def add_category_list_to_note(request, note_slug):
 	note_obj = get_object_or_404(Note, slug=note_slug)
 
 	if request.method == 'POST':
-		# obj_list = [
-		# 	Category.objects.get(id=category_id)
-		# 	for category_obj in [
-		# 		category_id for category_id in request.POST.values()
-		# 	]
-		# ]
-		category_ids = [
-			request.POST.get(category_name) 
-			for category_name in request.POST.keys()
-			if category_name.startswith('cn--')
-		]
-		note_obj.categories.set([get_object_or_404(Category, id=obj_id) for obj_id in category_ids])
+		categories = request.POST.getlist('categories', None)
+		obj_list = [get_object_or_404(Category, id=category_id) for category_id in categories]
+		note_obj.categories.add(*obj_list)
 			
-
 	return redirect(request.META.get('HTTP_REFERER'))
+
+
+def create_category(request, note_slug):
+	if request.method == 'GET':
+		raise Http404
+
+	form = CategoryForm(request.POST)
+		
+	if form.is_valid():
+		form.save(note_slug=note_slug)
+		return redirect(reverse('note:detail', kwargs={'note_slug': note_slug}))
+		
+	else:
+		return render(request.META.get('HTTP_REFERER'))
