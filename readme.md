@@ -16,40 +16,31 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
+      <a href="#project-summary">Project Summary</a>
+        <li><a href="#technologies-and-packages">Technologies and packages</a></li>
+        <li><a href="#there-will-be">There Will be</a></li>
       </ul>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#used">Used</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#installation">Installation</a></li>
   </ol>
 </details>
 
 
-## About The Project
+## Project Summary
 You can have your note-book everywhere and use it with ease!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-### Built With
+### Technologies and packages
 * Python
 * Django
 * DjangoWidgetTweaks
 * DjangoCkeditor
 * DjangoProfanity
+
 #### There Will be
 * Angular
 * Bootstrap
