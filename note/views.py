@@ -156,3 +156,24 @@ def remove_category_from_note(request, note_slug, category_id):
 
 	note_obj.categories.remove(category_obj)
 	return redirect(request.META.get('HTTP_REFERER'))
+
+
+def add_category_list_to_note(request, note_slug):
+	note_obj = get_object_or_404(Note, slug=note_slug)
+
+	if request.method == 'POST':
+		# obj_list = [
+		# 	Category.objects.get(id=category_id)
+		# 	for category_obj in [
+		# 		category_id for category_id in request.POST.values()
+		# 	]
+		# ]
+		category_ids = [
+			request.POST.get(category_name) 
+			for category_name in request.POST.keys()
+			if category_name.startswith('cn--')
+		]
+		note_obj.categories.set([get_object_or_404(Category, id=obj_id) for obj_id in category_ids])
+			
+
+	return redirect(request.META.get('HTTP_REFERER'))
